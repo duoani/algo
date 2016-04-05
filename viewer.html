@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Algorithm Viewer</title>
+    <link rel="stylesheet" href="algo.css" />
+</head>
+<body>
+<div class="program">
+    <h1>Program</h1>
+    <textarea id="code" cols="30" rows="10">
+function bubbleSort(arr){
+    algo.start(arr);
+    for(var i=0; i<arr.length-1; i++){
+        var temp;
+        for(var j=i+1; j<arr.length; j++){
+            algo.compare(i, j, "对比'"+arr[i]+"'与'"+arr[j]+"'");
+            if(arr[i] > arr[j]){
+                algo.hit(j, "'"+arr[i]+"' > '"+arr[j]+"'，命中");
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                algo.swapOrigin(i, j, "交换位置");
+            }
+        }
+    }
+    algo.complete("排序完成");
+    return arr;
+}
+bubbleSort([281,77,122,11,2,76,99,31]);
+    </textarea>
+    <button id="btnRun">运行</button>
+</div>
+<div class="player">
+    <div class="clearfix">
+        <div class="col-6">
+            <h1>数据: <button id="btnNext">下一步</button> <button id="btnReset">重　置</button></h1>
+            <ul class="args" id="args">
+            </ul>
+        </div>
+        <div class="col-6">
+            <h1>状态</h1>
+            <ul class="result" id="log">
+            </ul>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+    
+<script src="jquery.min.js"></script>
+<script src="algo.js"></script>
+</body>
+</html>
+

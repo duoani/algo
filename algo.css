@@ -1,0 +1,64 @@
+html,body{margin:0;padding:0; background-color: #efefef; font-size: 14px; line-height: 22px;}
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: "\20 ";
+  clear: both;
+  height: 0;
+}
+.clearfix {
+  zoom: 1;
+  /* for IE6 IE7 */
+}
+.col-6{
+    width: 50%;
+    float: left;
+}
+.program,
+.player{
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+.program{
+    margin-bottom: 10px;
+}
+.program textarea{border: 1px solid #cecece; display: block; width: 100%; resize: none; height: 300px;}
+ul{
+    list-style: none;
+    padding: 0;
+}
+li{
+    position: relative;
+    display:block;
+    padding-left: 30px;
+}
+li em, li i{
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+li em{
+    display: none; 
+}
+.active em{
+    display: block;
+    color: #f00;
+}
+.active span{
+    color: #fff;
+    background-color: #f00;
+    border-color: #f00;
+}
+.hit em{
+    color: #0f0;
+    
+}
+.args li{margin-bottom: 2px;}
+.args li span{ 
+    border: 1px solid #cecece;
+    border-radius: 3px;
+    padding: 2px;
+}
