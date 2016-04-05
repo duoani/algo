@@ -23,9 +23,10 @@ html,body{margin:0;padding:0; background-color: #efefef; font-size: 14px; line-h
     background-color: #fff;
 }
 .program{
-    margin-bottom: 10px;
+    margin: 10px auto;
 }
 .program textarea{border: 1px solid #cecece; display: block; width: 100%; resize: none; height: 300px;}
+.program button{margin-top: 10px;}
 ul{
     list-style: none;
     padding: 0;
@@ -35,15 +36,15 @@ li{
     display:block;
     padding-left: 30px;
 }
-li em, li i{
+li .t, li .g, li i{
     position: absolute;
     left: 0;
     top: 0;
 }
-li em{
+li .t, li .g{
     display: none; 
 }
-.active em{
+.active .t{
     display: block;
     color: #f00;
 }
@@ -52,9 +53,12 @@ li em{
     background-color: #f00;
     border-color: #f00;
 }
-.hit em{
+.hit .t{
     color: #0f0;
-    
+}
+.guard .g{
+    color: #00f;
+    display: block;
 }
 .args li{margin-bottom: 2px;}
 .args li span{ 

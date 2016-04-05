@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubble Sort</title>
+    <link rel="stylesheet" href="css/algo.css" />
+</head>
+<body>
+<div class="program">
+    <h1>Program [Bubble Sort]</h1>
+    <textarea id="code" cols="30" rows="10">
+function bubbleSort(arr){
+    algo.start(arr);
+    for(var i=0; i<arr.length-1; i++){
+        var temp;
+        algo.guard(arr.length-i-1, "Set Guard at: "+(arr.length-i-1));
+        for(var j=0; j<arr.length-i-1; j++){
+            algo.compare(j, j+1, "Compare "+arr[j]+" with "+arr[j+1]);
+            if(arr[j] > arr[j+1]){
+                algo.hit(j+1, arr[j]+" > "+arr[j+1]+", hit!");
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+                algo.swapOrigin(j, j+1, "Swap");
+            }
+        }
+    }
+    algo.complete("Sort completed!");
+    return arr;
+}
+bubbleSort([281,77,122,11,2,76,99,31]);
+    </textarea>
+    <button id="btnRun">Run</button>
+</div>
+<div class="player" id="player" style="display:none;">
+    <div class="clearfix">
+        <div class="col-6">
+            <h1>Data <button id="btnNext">Next Step</button> <button id="btnReset">Reset</button></h1>
+            <ul class="args" id="args">
+            </ul>
+        </div>
+        <div class="col-6">
+            <h1>Status</h1>
+            <ul class="result" id="log">
+            </ul>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+    
+<script src="js/jquery.min.js"></script>
+<script src="js/algo.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
+

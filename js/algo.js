@@ -9,7 +9,8 @@
         SWAP: 5,
         COMPARE: 6,
         HIT: 7,
-        COMPLETE: 8
+        COMPLETE: 8,
+        GUARD: 9
     };
 
     var Algo = function(view){
@@ -52,7 +53,15 @@
         complete: function(log){
             this.frames.push([operation.COMPLETE, log]);
         },
-
+        guard: function(i, log){
+            this.frames.push([operation.GUARD, i, log]);
+        },
+        reset: function(){
+            this.frameIndex = 0;
+            this.frames = [];
+            this.origin = [];
+            this.input = [];
+        },
         resetPlay: function(){
             this.frameIndex = 0;
             this.input = this.origin.slice(0);
@@ -101,6 +110,10 @@
                 case 8:
                     this.view.complete(args);
                     break;
+                case 9:
+                    this.view.guard(args);
+                    this.view.render(this.input);
+                    break;
             }
             this.frameIndex++;
         },
@@ -111,17 +124,19 @@
 
     var DefaultView = function(){
         this.logIndex = 0;
+        this.guardIndex = -1;
     };
     DefaultView.prototype = {
         render: function(data){
             var html = '';
             for(var i=0, len=data.length; i<len; i++){
-                html += '<li><span>'+data[i]+'</span><em>-></em></li>';
+                html += '<li class="'+(i === this.guardIndex ? 'guard' : '')+'"><span>'+data[i]+'</span><em class="g">-></em><em class="t">-></em></li>';
             }
             $('#args').html(html);
         },
         reset: function(data){
             this.logIndex = 0;
+            this.guardIndex = -1;
             this.render(data);
             $('#log').html('');
         },
@@ -151,41 +166,13 @@
         },
         complete: function(args){
             this.log(args[0]);
-            $('#args').children('li').removeClass('hit').removeClass('active');
+            $('#args').children('li').removeClass('hit').removeClass('active').removeClass('guard');
+        },
+        guard: function(args){
+            this.log(args[1]);
+            this.guardIndex = args[0];
         }
     };
 
     window.algo = new Algo();
 }(this);
-
-$('#btnRun').on('click', function(){
-    var code = $('#code').val();
-    eval(code);
-    algo.resetPlay();
-});
-$('#btnReset').on('click', function(){
-    algo.resetPlay();
-});
-$('#btnNext').on('click', function(){
-    algo.next();
-});
-
-function bubbleSort(arr){
-    algo.start(arr);
-    for(var i=0; i<arr.length-1; i++){
-        var temp;
-        for(var j=i+1; j<arr.length; j++){
-            algo.compare(i, j, "对比'"+arr[i]+"'与'"+arr[j]+"'");
-            if(arr[i] > arr[j]){
-                algo.hit(j, "'"+arr[i]+"' > '"+arr[j]+"'，命中");
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-                algo.swapOrigin(i, j, "交换位置");
-            }
-        }
-    }
-    algo.complete("排序完成");
-    return arr;
-}
-//bubbleSort([281,77,122,11,2,76,99,31]);
