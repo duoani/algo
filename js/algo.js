@@ -11,10 +11,14 @@
         COMPARE: 7,       //对比操作(判断条件)
         HIT: 8,           //命中(判断条件达成)
         COMPLETE: 9,      //完成(算法完成)
-        SET_GUARD: 10,     //设置哨兵(清除其他哨兵)
+        SET_GUARD: 10,    //设置哨兵(清除其他哨兵)
         ADD_GUARD: 11,    //添加哨兵(允许添加多个哨兵)
         CHANGE_GUARD: 12, //更换哨兵(移动哨兵)
-        CLEAR_GUARD: 13   //清除所有哨兵
+        CLEAR_GUARD: 13,  //清除所有哨兵
+        SET_TEMP: 14,     //设置临时值(清除其他临时值)
+        ADD_TEMP: 15,     //添加临时值(允许添加多个临时值)
+        CHANGE_TEMP: 16,  //更换临时值
+        CLEAR_TEMP: 17    //清除所有临时值
     };
 
     var Algo = function(view){
@@ -71,6 +75,18 @@
         },
         clearGuard: function(log){
             this.frames.push([operation.CLEAR_GUARD, log]);
+        },
+        setTemp: function(value, log){
+            this.frames.push([operation.SET_TEMP, value, log]);
+        },
+        addTemp: function(value, log){
+            this.frames.push([operation.ADD_TEMP, value, log]);
+        },
+        changeTemp: function(i, value, log){
+            this.frames.push([operation.CHANGE_TEMP, i, value, log]);
+        },
+        clearTemp: function(log){
+            this.frames.push([operation.CLEAR_TEMP, log]);
         },
         reset: function(){
             this.frameIndex = 0;
@@ -147,6 +163,22 @@
                     this.view.clearGuard(args);
                     this.view.render(this.input);
                     break;
+                case 14:
+                    this.view.setTemp(args);
+                    this.view.render(this.input);
+                    break;
+                case 15:
+                    this.view.addTemp(args);
+                    this.view.render(this.input);
+                    break;
+                case 16:
+                    this.view.changeTemp(args);
+                    this.view.render(this.input);
+                    break;
+                case 17:
+                    this.view.clearTemp(args);
+                    this.view.render(this.input);
+                    break;
             }
             this.frameIndex++;
         },
@@ -158,18 +190,26 @@
     var DefaultView = function(){
         this.logIndex = 0;
         this.guardIndex = [];
+        this.tempValue = [];
     };
     DefaultView.prototype = {
         render: function(data){
-            var html = '';
-            for(var i=0, len=data.length; i<len; i++){
+            var html = '', i, len;
+            for(i=0, len=data.length; i<len; i++){
                 html += '<li class="'+(this.guardIndex[i] ? 'guard' : '')+'"><span>'+data[i]+'</span><em class="g">-></em><em class="t">-></em></li>';
+            }
+            if(this.tempValue.length){
+                html += '<li class="temp-title"><b>Temp value</b></li>';
+                for(i=0, len=this.tempValue.length; i<len; i++){
+                    html += '<li class="temp"><span>'+this.tempValue[i]+'</span><em class="g">-></em><em class="t">-></em></li>';
+                }
             }
             $('#args').html(html);
         },
         reset: function(data){
             this.logIndex = 0;
             this.guardIndex = [];
+            this.tempValue = [];
             this.render(data);
             $('#log').html('');
         },
@@ -202,7 +242,8 @@
         },
         complete: function(args){
             this.log(args[0]);
-            $('#args').children('li').removeClass('hit').removeClass('active').removeClass('guard');
+            this.tempValue = [];
+            $('#args').children('li').removeClass('hit').removeClass('active').removeClass('guard').filter('.temp,.temp-title').remove();
         },
         setGuard: function(args){
             this.log(args[1]);
@@ -221,6 +262,22 @@
         clearGuard: function(args){
             this.log(args[0]);
             this.guardIndex = [];
+        },
+        setTemp: function(args){
+            this.log(args[1]);
+            this.tempValue= [args[0]];
+        },
+        addTemp: function(args){
+            this.log(args[1]);
+            this.tempValue.push(args[0]);
+        },
+        changeTemp: function(args){
+            this.log(args[2]);
+            this.tempValue[args[0]] = args[1];
+        },
+        clearTemp: function(args){
+            this.log(args[0]);
+            this.tempValue= [];
         }
     };
 

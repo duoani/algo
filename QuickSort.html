@@ -13,11 +13,11 @@
 function quickSort(arr){
     algo.start(arr); 
     function sort(arr, left, right){
+        algo.setTemp(arr[left], "Set flag:"+arr[left]);
         var flag = arr[left];
         var low = left;
         var high = right;
         if(low < high){ 
-            algo.hit(left, "Flag is " + arr[left]);
             algo.addGuard(low, "Set Guard at: "+(low)); 
             algo.addGuard(high, "Set Guard at: "+(high)); 
             while(low < high){ 
