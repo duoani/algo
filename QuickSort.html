@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Sort</title>
+    <link rel="stylesheet" href="css/algo.css" />
+</head>
+<body>
+<div class="program">
+    <h1>Program [Quick Sort]</h1>
+    <p>通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
+    <textarea id="code" cols="30" rows="40">
+function quickSort(arr){
+    algo.start(arr); 
+    function sort(arr, left, right){
+        var flag = arr[left];
+        var low = left;
+        var high = right;
+        if(low < high){ 
+            algo.hit(left, "Flag is " + arr[left]);
+            algo.addGuard(low, "Set Guard at: "+(low)); 
+            algo.addGuard(high, "Set Guard at: "+(high)); 
+            while(low < high){ 
+                while(low < high && flag < arr[high]){ 
+                    algo.compare(left, high, "Compare "+flag+" with "+arr[high]); 
+                    high--; 
+                } 
+                algo.hit(high, "hit!"); 
+                algo.hit(low); 
+                algo.updateOrigin(low, arr[high], "Move " + arr[high] + " to " + low); 
+                arr[low] = arr[high]; 
+                while(low < high && arr[low] < flag){ 
+                    algo.compare(left, low, "Compare "+flag+" with "+arr[low]); 
+                    low++; 
+                } 
+                algo.hit(low, "hit!");
+                algo.hit(high);
+                algo.updateOrigin(high, arr[low], "Move " + arr[low] + " to " + high);
+                arr[high] = arr[low]; 
+            }
+            algo.hit(low);
+            algo.updateOrigin(low, flag, "Move " + flag + " to " + low); 
+            arr[low] = flag; 
+            sort(arr, left, low-1); 
+            sort(arr, low+1, right); 
+        }
+    }
+    sort(arr, 0, arr.length-1); 
+    algo.complete("Sort completed!"); 
+    return arr; 
+} 
+quickSort([281,77,122,11,2,76,99,31]);
+    </textarea>
+    <button id="btnRun">Run</button>
+</div>
+<div class="player" id="player" style="display:none;">
+    <div class="clearfix">
+        <div class="col-6">
+            <h1>Data <button id="btnNext">Next Step</button> <button id="btnReset">Reset</button></h1>
+            <ul class="args" id="args">
+            </ul>
+        </div>
+        <div class="col-6">
+            <h1>Status</h1>
+            <ul class="result" id="log">
+            </ul>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+    
+<script src="js/jquery.min.js"></script>
+<script src="js/algo.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
+

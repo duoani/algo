@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Optimized Bubble Sort</title>
+    <link rel="stylesheet" href="css/algo.css" />
+</head>
+<body>
+<div class="program">
+    <h1>Program [Optimized Bubble Sort]</h1>
+    <p>在要排序的一组数中，对当前还未排好序的范围内的全部数，自上而下对相邻的两个数依次进行比较和调整，让较大的数往下沉，较小的往上冒。即：每当两相邻的数比较后发现它们的排序与排序要求相反时，就将它们互换。</p>
+    <p>传统冒泡排序中每一趟排序操作只能找到一个最大值或最小值,我们考虑利用在每趟排序中进行正向和反向两遍冒泡的方法一次可以得到两个最终值(最大者和最小者) , 从而使排序趟数几乎减少了一半。</p>
+    <textarea id="code" cols="30" rows="33">
+function bubbleSort(arr){
+    algo.start(arr);
+    algo.addGuard(0, "Add Guard at: "+0);
+    algo.addGuard(arr.length-1, "Add Guard at: "+(arr.length-1));
+    var low=0, high=arr.length-1, temp, i;
+    while( low < high ){
+        for(i=low; i<high; i++){
+            algo.compare(i, i+1, "Forward compare, find out the maximum. ("+arr[i]+" vs "+arr[i+1]+")");
+            if(arr[i] > arr[i+1]){
+                algo.hit(i+1, arr[i]+" > "+arr[i+1]+", hit!");
+                temp = arr[i]; arr[i] = arr[i+1]; arr[i+1] = temp;
+                algo.swapOrigin(i, i+1, "Swap");
+            }
+        }
+        algo.changeGuard(high, high-1, "Move guard from "+high+" to "+(high-1));
+        --high;
+        for(i=high; i>low; i--){
+            algo.compare(i, i-1, "Backward compare, find out the minimum. ("+arr[i]+" vs "+arr[i-1]+")");
+            if(arr[i] < arr[i-1]){
+                algo.hit(i-1, arr[i]+" < "+arr[i-1]+", hit!");
+                temp = arr[i]; arr[i] = arr[i-1]; arr[i-1] = temp;
+                algo.swapOrigin(i, i-1, "Swap");
+            }
+        }
+        algo.changeGuard(low, low+1, "Move guard from "+low+" to "+(low+1));
+        ++low;
+    }
+
+    algo.complete("Sort completed!");
+    return arr;
+}
+bubbleSort([281,77,122,11,2,76,99,31]);
+    </textarea>
+    <button id="btnRun">Run</button>
+</div>
+<div class="player" id="player" style="display:none;">
+    <div class="clearfix">
+        <div class="col-6">
+            <h1>Data <button id="btnNext">Next Step</button> <button id="btnReset">Reset</button></h1>
+            <ul class="args" id="args">
+            </ul>
+        </div>
+        <div class="col-6">
+            <h1>Status</h1>
+            <ul class="result" id="log">
+            </ul>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+    
+<script src="js/jquery.min.js"></script>
+<script src="js/algo.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
+

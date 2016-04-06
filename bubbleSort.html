@@ -8,12 +8,13 @@
 <body>
 <div class="program">
     <h1>Program [Bubble Sort]</h1>
-    <textarea id="code" cols="30" rows="10">
+    <p>在要排序的一组数中，对当前还未排好序的范围内的全部数，自上而下对相邻的两个数依次进行比较和调整，让较大的数往下沉，较小的往上冒。即：每当两相邻的数比较后发现它们的排序与排序要求相反时，就将它们互换。</p>
+    <textarea id="code" cols="30" rows="21">
 function bubbleSort(arr){
     algo.start(arr);
     for(var i=0; i<arr.length-1; i++){
         var temp;
-        algo.guard(arr.length-i-1, "Set Guard at: "+(arr.length-i-1));
+        algo.setGuard(arr.length-i-1, "Set Guard at: "+(arr.length-i-1));
         for(var j=0; j<arr.length-i-1; j++){
             algo.compare(j, j+1, "Compare "+arr[j]+" with "+arr[j+1]);
             if(arr[j] > arr[j+1]){
